@@ -17,14 +17,14 @@ library(parallel)
 # La norma de Frobenious igualmente se puede aplicar a un vector y es simplememente la norma euclídea.
 # En R tendrás que tener cuidado con los atributos de vector/matriz yadaptar ligeramente el código, pero matemáticamente es un caso particular.
 
-# d <- 1
-d <- 2
+d <- 1
+# d <- 2
 # d <- 3
 # d <- 4
 # d <- 5
 alpha <- min(c(d, 4)) / (2 * d + 8)
 M <- 100
-k <- 5:12
+k <- 5:14
 
 mu <- rep(0, d)
 sigma <- diag(1, nrow = d, ncol = d)
@@ -61,7 +61,7 @@ mean_H.ucv <- rowMeans(r.n, na.rm = TRUE)
 -alpha
 
 # Compare empirical rate with theoretical rate
-matplot(k, log(mean_H.ucv), type = "l", col = 1, lwd = 2, ylim = c(-3, 0))
+matplot(k, log(mean_H.ucv), type = "l", col = 1, lwd = 2, ylim = c(-3, 2))
 matlines(k, log(2^(-alpha * k)), type = "l", col = "red", lwd = 2, lty = 1)
 legend("topleft", legend = c("Empirical", "Theoretical"), col = 1:2, lwd = 2)
 
@@ -77,7 +77,7 @@ matplot(k,log(r.n),
         ylim=c(-6,2),
         col=col(12))
 matlines(k,log(mean_H.ucv), type = "l", col = "red", lwd = 2, lty = 1) 
-legend(x = "topright",     
+legend(x = "bottomright",     
        legend = "log(mean(H.ucv))", 
        inset = 0.05,
        lty = 1,          
