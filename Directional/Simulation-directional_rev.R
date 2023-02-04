@@ -111,6 +111,14 @@ mean_H.ucv <- rowMeans(r.n, na.rm = TRUE)
 # Congruence of powers
 (mod <- lm(log(mean_H.ucv) ~ k))
 
+
+# Compare empirical rate with theoretical rate
+alpha <- min(c(d, 4)) / (2 * d + 8)
+matplot(k, log(mean_H.ucv), type = "l", col = 1, lwd = 2, ylim = c(-5, 2))
+matlines(k, log(2^(-alpha * k)), type = "l", col = "red", lwd = 2, lty = 1)
+legend("topleft", legend = c("Empirical", "Theoretical"), col = 1:2, lwd = 2)
+
+
 # Plots
 n=2^k
 col <- colorRampPalette(c("yellow", "blue", "yellow"))
@@ -121,8 +129,8 @@ matplot(k,log(r.n),
         xlab="k",
         col=col(12))
 matlines(k,log(mean_H.ucv), type = "l", col = "red", lwd = 2, lty = 1)  # Empirical rate
-legend(x = "topright",     
-       legend = "log(mean(H.ucv))", 
+legend(x = "bottomleft",     
+       legend = "log(mean(h.lscv))", 
        inset = 0.05,
        lty = 1,          
        col = "red",          
