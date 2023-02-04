@@ -127,8 +127,10 @@ lines(k,h_opt,
       lty=2)
 legend(x = "topright",     
        # inset = 0.05,
-       legend = c(latex2exp::TeX("value of $mean(\\hat{h}_{UCV})$"), latex2exp::TeX("value of $h_{AMISE}$")), 
-       lty = c(1,2),          
+       legend = c(latex2exp::TeX("$mean(\\hat{h}_{UCV})$"), latex2exp::TeX("$h_{AMISE}$")), 
+       lty = c(1,2), 
+       inset=0.05,
+       bty = "n", 
        col = c("red","black"),          
        lwd = c(2,1))  
 

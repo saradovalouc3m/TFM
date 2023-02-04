@@ -20,7 +20,7 @@ sd.41 <- sqrt(2 * R_p * R_f / (25 * n^2 * h_opt^7 * mu2_K_gaussian^4 * R_curvatu
 # Data reading
 # -------------------------------------------------------
 library(R.matlab)
-data <- list.files(path = "~/Desktop/UC3M, Statistics for Data Science/TFM/R scripts/Unidimensional case/Results_simulation", pattern = "*.mat")
+data <- list.files(path = "~/TFM/R scripts/Unidimensional case", pattern = "*.mat")
 data <- paste0(sort(as.integer(substring(data, 1, nchar(data)-4))), ".mat")
 data
 
@@ -64,13 +64,13 @@ hist(statistic_values,
      probability = TRUE, main = latex2exp::TeX("$H_1$")
 )
 
-
+k=5:16
 plot(k, log(statistic_values),
-     ylim = c(-5.0,-1.2),
+     # ylim = c(-5.0,0),
      type = "l",
      col = "lightblue", 
      lwd = 5,
-     ylab = latex2exp::TeX("value of $ log(D_{n})$"))
+     ylab = latex2exp::TeX("$log(D_{n})$"))
 
 
 

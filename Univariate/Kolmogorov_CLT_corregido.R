@@ -27,4 +27,5 @@ plot(k, log(statistic_values),
      type="l",
      col = "lightblue", 
      lwd = 5,
-     ylab = latex2exp::TeX("value of $ log(D_{n})$"))
+     ylab = latex2exp::TeX("$log(D_{n})$"))
+
