@@ -66,7 +66,7 @@ hist(statistic_values,
 
 k=5:16
 plot(k, log(statistic_values),
-     # ylim = c(-5.0,0),
+     ylim = c(-5.0,0),
      type = "l",
      col = "lightblue", 
      lwd = 5,
