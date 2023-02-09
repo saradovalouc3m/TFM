@@ -109,11 +109,12 @@ r.n <- do.call(rbind, r.n.list)
 mean_H.ucv <- rowMeans(r.n, na.rm = TRUE)
 
 # Congruence of powers
+alpha <- min(c(d, 4)) / (2 * d + 8)
 (mod <- lm(log(mean_H.ucv) ~ k))
+-alpha
 
 
 # Compare empirical rate with theoretical rate
-alpha <- min(c(d, 4)) / (2 * d + 8)
 matplot(k, log(mean_H.ucv), type = "l", col = 1, lwd = 2, ylim = c(-5, 2))
 matlines(k, log(2^(-alpha * k)), type = "l", col = "red", lwd = 2, lty = 1)
 legend("topleft", legend = c("Empirical", "Theoretical"), col = 1:2, lwd = 2)
