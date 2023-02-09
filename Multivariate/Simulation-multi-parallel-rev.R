@@ -38,7 +38,7 @@ r.n.list <- mclapply(X = k, FUN = function(j) {
   for (i in 1:M) {
     if (d == 1) {
       xs <- drop(mvrnorm(n = n, mu = mu, Sigma = sigma))
-      H.ucv <- tryCatch(as.matrix(ks::hucv(xs)), error = function(e) NA)
+      H.ucv <- tryCatch(as.matrix(ks::hucv(xs)^2), error = function(e) NA)
     } else {
       xs <- mvrnorm(n = n, mu = mu, Sigma = sigma)
       H.ucv <- tryCatch(ks::Hucv.diag(xs), error = function(e) NA)
