@@ -49,7 +49,7 @@ r.n.list <- mclapply(X = k, FUN = function(j) {
   }
   r.n
 # }, mc.cores = 4)
-}, mc.cores = 2)
+}, mc.cores = 1)
   
   
 # Mean rates
