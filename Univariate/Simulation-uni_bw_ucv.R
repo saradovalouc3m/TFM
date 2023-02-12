@@ -1,4 +1,3 @@
-
 # Internal C source code used in stats::bw.ucv()
 # https://github.com/aviralg/r/blob/9ca112c1b9b6a9751e3ba2944cca78cc3657e4c5/src/library/stats/src/bandwidths.c
 # SEXP bw_ucv(SEXP sn, SEXP sd, SEXP cnt, SEXP sh)
@@ -21,33 +20,32 @@
 # Translation to R
 DELMAX <- 1000
 ucv <- function(sn, sd, cnt, sh, mod = FALSE) {
-
-  h = sh
-  d = sd
-  sum = 0.0
-  term = 0
-  u = 0
-  n = sn
-  nbin = length(cnt)
-  x = cnt;
+  h <- sh
+  d <- sd
+  sum <- 0.0
+  term <- 0
+  u <- 0
+  n <- sn
+  nbin <- length(cnt)
+  x <- cnt
   for (i in 1:nbin) {
-    delta = (i - 1) * d / h
-    delta = delta * delta
+    delta <- (i - 1) * d / h
+    delta <- delta * delta
     if (!mod & delta >= DELMAX) break
-    term = exp(-delta / 4) - sqrt(8.0) * exp(-delta / 2)
-    sum = sum + term * x[i]
+    term <- exp(-delta / 4) - sqrt(8.0) * exp(-delta / 2)
+    sum <- sum + term * x[i]
   }
-  u = (0.5 + sum / n) / (n * h * sqrt(pi))
+  u <- (0.5 + sum / n) / (n * h * sqrt(pi))
   return(u)
-
 }
 
 # Test of the objective function
 n <- 2000
 x <- rnorm(n)
 nb <- 1e3
-Z <- stats:::bw_pair_cnts(x, nb, n > nb/2)
-d <- Z[[1L]]; cnt <- Z[[2L]]
+Z <- stats:::bw_pair_cnts(x, nb, n > nb / 2)
+d <- Z[[1L]]
+cnt <- Z[[2L]]
 ucv_C <- .Call(stats:::C_bw_ucv, n, d, cnt, h)
 ucv_R <- function(h, mod = FALSE) ucv(n, d, cnt, h, mod)
 h <- seq(0.01, 1, l = 100)
@@ -61,13 +59,20 @@ bw_ucv_Scott <- function(x, opt = TRUE,
                          h_grid = 10^seq(log10(0.01), log10(1), l = 100),
                          show_plot = FALSE) {
   n <- length(x)
-  Z <- stats:::bw_pair_cnts(x, nb, n > nb/2)
-  d <- Z[[1L]]; cnt <- Z[[2L]]
+  Z <- stats:::bw_pair_cnts(x, nb, n > nb / 2)
+  d <- Z[[1L]]
+  cnt <- Z[[2L]]
   ucv_C <- function(h) .Call(stats:::C_bw_ucv, n, d, cnt, h)
   if (opt) {
-    h_opt <- optim(par = 0.5 * n^{-1/5}, fn = ucv_C, lower = 1e-5,
-                   upper = 10 * n^{-1/5},
-                   method = "L-BFGS-B")$par
+    h_opt <- optim(
+      par = 0.5 * n^{
+        -1 / 5
+      }, fn = ucv_C, lower = 1e-5,
+      upper = 10 * n^{
+        -1 / 5
+      },
+      method = "L-BFGS-B"
+    )$par
   } else {
     ucv_grid <- sapply(h_grid, ucv_C)
     h_opt <- h_grid[which.min(ucv_grid)]
@@ -88,7 +93,7 @@ n <- 1e3
 M <- 1e4
 h.ucv <- numeric(M)
 
-  
+
 pb <- txtProgressBar(style = 3)
 for (i in 1:M) {
   set.seed(i)
@@ -103,6 +108,6 @@ rug(h.ucv)
 # - Optimizing over a grid of bandwidths gives discrete values which is not
 #   adequate to estimate the distribution of h_UCV by Monte Carlo.
 # - The number of bins (defaults to nb = 1000L in bw.ucv()!) needs to be
-#   adapted to n. It seems that is affecting the result! Compare what happens
+#   adapted to n. It seems that is affecting the result! We will compare what happens
 #   with nb = 1e3 to nb = 1e4.
 # - The distribution is highly skewed, even for n = 1e4.
