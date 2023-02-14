@@ -61,13 +61,45 @@ r.n <- do.call(rbind, r.n.list)
 mean_H.ucv <- rowMeans(r.n, na.rm = TRUE)
 
 # Congruence of powers
-(mod <- lm(log(mean_H.ucv) ~ k))
+(mod <- lm(log(mean_H.ucv) ~ log(2^k)))
 -alpha
+
 
 # Compare empirical rate with theoretical rate
 matplot(k, log(mean_H.ucv), type = "l", col = 1, lwd = 2, ylim = c(-3, 2))
 matlines(k, log(2^(-alpha * k)), type = "l", col = "red", lwd = 2, lty = 1)
 legend("topleft", legend = c("Empirical", "Theoretical"), col = 1:2, lwd = 2)
+
+# Check whether the slopes of the above lines are equal using confidence intervals
+ci_beta1 <- confint(mod, level = 0.95)
+beta1 <- coef(mod)[2]
+lower_bound <- ci_beta1[2, 1]
+upper_bound <- ci_beta1[2, 2]
+beta1
+lower_bound
+upper_bound
+-alpha
+
+plot(c(0, 1),
+  c(0, 0),
+  type = "n",
+  xlab = "",
+  ylab = "",
+  xaxt = "n",
+  ylim = c(ci_beta1[2, 1] - 0.15, ci_beta1[2, 2] + 0.15)
+)
+abline(h = ci_beta1[2, 1], col = "black", lty = 2)
+abline(h = ci_beta1[2, 2], col = "black", lty = 2)
+abline(h = -alpha, col = "red", lty = 1, lwd = 2)
+legend(
+  "topright",
+  legend = c("CI of empirical slope", "Theoretical slope"),
+  col = c("black", "red"),
+  lty = c(2, 1),
+  lwd = c(1, 2),
+  bty = "n"
+)
+
 
 # Plots
 n <- 2^k
@@ -75,12 +107,12 @@ col <- colorRampPalette(c("yellow", "blue", "yellow"))
 matplot(k, log(r.n),
   type = "l",
   xlab = "k",
-  ylim = c(-6, 2),
+  ylim = c(-8, 2),
   col = col(12)
 )
 matlines(k, log(mean_H.ucv), type = "l", col = "red", lwd = 2, lty = 1)
 legend(
-  x = "bottomright",
+  x = "topright",
   legend = "log(mean(H.ucv))",
   inset = 0.05,
   lty = 1,
